@@ -1,0 +1,34 @@
+
+
+{% extends 'social/layout.html' %}
+
+{% load static %}
+{% block content%}
+
+<form class="form" method="post">
+	<style>
+ 
+ 
+	body {
+		background: white;
+	 }
+	 form{
+		width: 120%;
+		max-width: 800px;
+		margin: 0 auto;
+		align-items: center;
+		border: 0em;
+		background: #fafafa;
+	  }
+
+</style>
+	{% csrf_token %}
+	{{ form.as_p }}
+
+	<button type="submit" id="submit">Registrarse</button>
+</form>
+<br>
+<br>
+<br>
+<br><br>
+{% endblock %}

@@ -1,0 +1,195 @@
+{% extends 'social/layout.html' %}
+{% block content%}
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <title>Document</title>
+</head>
+<style>
+  body {
+
+    background: white;
+  }
+
+
+
+  button {
+    background-color: white;
+  }
+
+  h1 {
+    background-color: white;
+  }
+
+  label {
+    border-bottom: center;
+  }
+
+  form {
+    width: 120%;
+    max-width: 800px;
+    margin: 0 auto;
+    align-items: center;
+    border: 0em;
+    background: #fafafa;
+  }
+
+  .prueba {
+    padding: 1 10px 3px 3px;
+    border: 1.8px solid black;
+    background: #f5ebf5;
+  }
+</style>
+
+<body>
+  <form class="form-register">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <div class="info">
+      <center> <a class="prueba" href="{% url 'feed' %}">REGRESAR</a> </center>
+
+      <center>
+        <h1 style="background-color: #fafafa;"> Contactanos</h1>
+      </center>
+      <nav>
+
+
+      </nav>
+
+    </div>
+
+    <div class="elementos">
+      <!-- campos a llenar -->
+      <div class="elementosForm">
+        <font size="5" face="Arial black">
+          <p>
+            <center><label class="etiquetaForm">nombre</label></center>
+            <input class="controllers" type="text" name="nom" id="nomField" placeholder="nombre" autofocus required>
+          </p>
+        </font>
+        <font size="5" face="Arial black">
+          <p>
+            <center><label class="etiquetaForm">apellidos</label></center>
+            <input class="controllers" type="text" name="ap" id="apField" placeholder="apellidos" autofocus required>
+          </p>
+        </font>
+
+        <font size="5" face="Arial black">
+          <p>
+            <center> <label class="etiquetaForm">fecha</label></center>
+            <input class="controllers" type="date" name="fec" id="fecField" placeholder="fecha" autofocus required>
+          </p>
+        </font>
+
+        <font size="5" face="Arial black">
+          <p>
+            <center>  <label class="etiquetaForm">asunto</label></center>
+            <input class="controllers" type="text" name="ap" id="asunField" placeholder="asunto" autofocus required>
+          </p>
+        </font>
+
+        <font size="5" face="Arial black">
+          <p>
+            <center>   <label class="etiquetaForm">correo</label></center>
+            <input class="controllers" type="email" name="ema" id="emaiField" placeholder="correo" autofocus required>
+          </p>
+        </font>
+
+        <font size="5" face="Arial black">
+          <p>
+            <center>  <label class="etiquetaForm">comentarios</label></center>
+            <input class="controllers" type="text" name="comen" id="comenField" placeholder="Ingrese su cargo" autofocus
+              required>
+          </p>
+        </font>
+
+
+      </div>
+      <!-- fin campos a llenar -->
+
+
+
+      <!-- <input class="buttons" type="submit" value="Contactanos"> -->
+      <font size="5" face="Arial black">
+
+        <center><button class="buttons" type="submit" onclick="datos()" style="background: #c6b1c9;"> Enviar </button>
+        </center>
+      </font>
+    </div>
+
+
+  </form>
+
+  </div>
+  <script>
+    function datos() {
+      let nombre = String(nomField.value).trim();
+
+      if (nombre.length === 0) {
+        Swal.fire({
+          title: 'Error!',
+          text: 'DATOS REQUERIDOS',
+          icon: 'error',
+          confirmButtonText: 'OK',
+          timer: 2000
+
+        });
+
+      } else {
+        $.ajax({
+          url: "{% url 'ema' %}",
+          type: "POST",
+          data: {
+
+            'nombre': $('#nomField').val(),
+            'apellidos': $('#apField').val(),
+            'fecha': $('#fecField').val(),
+            'asunto': $('#asunField').val(),
+            'correo': $('#emaiField').val(),
+            'comentarios': $('#comenField').val(),
+
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+          },
+          success: function (data) {
+            console.log(data)
+            console.log("Success");
+            window.location.href = "{% url 'ema' %}";
+
+
+          },
+
+          error: function () {
+            alert('Hubo algún error al realizar la llamada AJAX!');
+          }
+        });
+
+
+
+      }
+
+
+    }
+
+
+
+
+
+
+
+
+  </script>
+</body>
+<br><br>
+</html>
+{% endblock %}

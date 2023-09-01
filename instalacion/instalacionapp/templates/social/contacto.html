@@ -1,0 +1,244 @@
+{% extends 'social/layout.html' %}
+{% load static%}
+
+{% block content%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+  <script src="sweetalert2.all.min.js"></script>
+  <script src="sweetalert2.min.js"></script>
+  <link rel="stylesheet" href="sweetalert2.min.css">
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <title>Document</title>
+</head>
+<style>
+  form {
+    width: 120%;
+    max-width: 800px;
+    margin: 0 auto;
+    align-items: center;
+    border: 0em;
+    background: #fafafa;
+  }
+
+  body {
+    background: white;
+  }
+
+  input {
+
+    -moz-border-radius: 9px;
+    -webkit-border-radius: 3000px;
+    border-radius: 3000px;
+    border: 1px solid #000000;
+    padding: 0 4px 0 4px;
+  }
+</style>
+
+<body>
+  <form class="register">
+    {% csrf_token %}
+
+
+    <div class="info">
+      <h1 class="titt"> Propiedades</h1>
+      <nav class="second-nav">
+        <a class="feed" href="{% url 'feed' %}">REGRESAR</a>
+
+
+      </nav>
+      <font size="6" face="Arial black">
+        <p>BIENVENIDOS</p>
+      </font>
+    </div>
+
+    <div class="elementos">
+      <!-- campos a llenar -->
+      <div class="elementosForm">
+        <font size="5" face="Arial">
+          <label class="etiquetaForm"></label>
+          <input class="controllers" type="hidden" name="user" id="userField" placeholder="Ingrese su usuario" autofocus
+            required>
+          </p>
+        </font>
+        <font size="5" face="Arial black">
+          <p>
+            <label class="etiquetaForm">id propiedad</label>
+            <input class="controllers" type="text" name="asa" id="asaField" placeholder="numero de la propieda"
+              autofocus required>
+          </p>
+        </font>
+        <font size="5" face="Arial black">
+          <p>
+            <label class="etiquetaForm">tipo propiedad</label>
+            <input class="controllers" type="text" name="a" id="aField" placeholder="tipo de propiedad" autofocus
+              required>
+          </p>
+        </font>
+
+        <font size="5" face="Arial black">
+          <p>
+            <label class="etiquetaForm">ubicacion</label>
+            <input class="controllers" type="text" name="b" id="bField" placeholder="ubicacion" autofocus required>
+          </p>
+        </font>
+
+        <font size="5" face="Arial black">
+          <p>
+            <label class="etiquetaForm">metros cuadrados</label>
+            <input class="controllers" type="text" name="c" id="cField" placeholder="metros cuadrados" autofocus
+              required>
+          </p>
+        </font>
+
+        <font size="5" face="Arial black">
+          <p>
+            <label class="etiquetaForm">renta o venta</label>
+            <input class="controllers" type="text" name="d" id="dField" placeholder="renta o venta" autofocus required>
+          </p>
+        </font>
+
+        <font size="5" face="Arial black">
+          <p>
+            <label class="etiquetaForm">precio</label>
+            <input class="controllers" type="text" name="e" id="eField" placeholder="precio" autofocus required>
+          </p>
+        </font>
+
+        <font size="5" face="Arial black">
+
+          <p>
+            <label class="etiquetaForm">n habitaciones</label>
+            <input class="controllers" type="text" name="f" id="fField" placeholder="numero de habitacion" autofocus
+              required>
+          </p>
+        </font>
+
+        <font size="5" face="Arial black">
+          <p>
+            <label class="etiquetaForm">estado habitaciones</label>
+            <input class="controllers" type="text" name="g" id="gField" placeholder="estado de la habitacion" autofocus
+              required>
+          </p>
+
+          <p>
+
+            <center><label for="liderField">¿?</label></center>
+            <center><select name="disponible" id="liderField"></center>
+            <center>
+              <option value="True">Si</option>
+            </center>
+            <center>
+              <option value="False">No</option>
+            </center>
+
+            </select>
+
+
+
+          </p>
+
+      </div>
+
+
+      <!-- <input class="buttons" type="submit" value="Contactanos"> -->
+      <center><button class="buttons" type="submit" onclick="datos()" style="background: #c6b1c9;"> Enviar </button>
+
+
+    </div>
+
+
+  </form>
+  <br><br>
+  <br>
+
+  </div>
+
+  <script>
+
+
+
+    function datos() {
+
+      let nombre = String(asaField.value).trim();
+
+      if (nombre.length === 0) {
+        Swal.fire({
+          title: 'Error!',
+          text: 'DATOS REQUERIDOS',
+          icon: 'error',
+          confirmButtonText: 'OK',
+          timer: 2000
+
+
+        });
+      } else {
+        $.ajax({
+          url: "{% url 'contacto' %}",
+          type: "POST",
+          data: {
+
+            'usuario': $('#userField').val(),
+            'id_propiedad': $('#asaField').val(),
+            'tipo_propiedad': $('#aField').val(),
+            'ubicacion': $('#bField').val(),
+            'metros_cuadrados': $('#cField').val(),
+            'renta_o_venta': $('#dField').val(),
+            'precio': $('#eField').val(),
+            'n_habitaciones': $('#fField').val(),
+            'estado_habitaciones': $('#gField').val(),
+            'disponible': $('#liderField').val(),
+
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+          },
+          success: function (data) {
+            console.log(data)
+            console.log("Success");
+            window.location.href = "{% url 'contacto' %}";
+
+
+          },
+
+          error: function () {
+            alert('Hubo algún error al realizar la llamada AJAX!');
+          }
+        });
+
+
+
+      }
+
+
+
+
+
+
+    }
+
+  </script>
+
+  <script>
+
+    const $register = document.getElementById('register');
+
+    const $asaField = document.getElementById('asaField');
+
+
+
+
+  </script>
+</body>
+<br>
+
+
+
+</html>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'social/layout.html' %}
+{% load static %}
+{% block content%}}
+
+<form class="form" method="post" width="100px" height="100px" alt="">
+	<style>
+		body {
+			background: white;
+		}
+
+		form {
+			width: 120%;
+			max-width: 800px;
+			margin: 0 auto;
+			align-items: center;
+			border: 10em;
+			background: #fafafa;
+		}
+		hr {
+			background: white;
+			border: white;
+		}
+	</style>
+	{% csrf_token %}
+	{{ form.as_p }}
+
+	<button type="submit" id="submit" >Login</button>
+
+
+</form>
+<br>
+<br>
+<hr>
+<hr>
+<hr>
+<br>
+<hr>
+<hr>
+<hr>
+<hr>
+<hr>
+<br><br>
+<br>
+<br>
+{% endblock %}
