@@ -1,0 +1,176 @@
+{% extends 'social/layout.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CONSULTA</title>
+
+  <style>
+    body {
+      background-color: white;
+    }
+
+    main {
+      background-color: white;
+      height: 70em;
+      text-align: center;
+    }
+
+    .info {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .titt {
+      font-size: 28px; /* Increased font size */
+    }
+
+    .feed {
+      text-decoration: none;
+      background-color: #007BFF;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+
+    table {
+      width: 20%;
+      margin: 20px auto;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 12px; /* Increased padding for larger font */
+      text-align: center;
+      font-size: 18px; /* Increased font size for table cells */
+    }
+
+    th {
+      background-color: #007BFF;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    .pagination {
+        margin-top: 20px;
+        text-align: center;
+      }
+    
+      .pagination li {
+        display: inline-block;
+        margin-right: 5px;
+      }
+    
+      .pagination .page-item {
+        list-style-type: none;
+      }
+    
+      .pagination .page-link {
+        color: #007BFF;
+        text-decoration: none;
+        border: 1px solid #007BFF;
+        padding: 6px 12px;
+        border-radius: 4px;
+      }
+    
+      .pagination .page-link:hover {
+        background-color: #007BFF;
+        color: white;
+      }
+    
+      .pagination .page-item.active .page-link {
+        background-color: #007BFF;
+        color: white;
+      }
+    
+      .pagination .page-item.disabled .page-link {
+        color: #ccc;
+        pointer-events: none;
+        cursor: not-allowed;
+      }
+  </style>
+
+</head>
+
+<body>
+  {% if request.user.is_authenticated %}
+  <main>
+    <div class="info">
+      <h1 class="titt">CONSULTA DE DATOS PERSONAL</h1>
+      <nav class="second-nav"></nav>
+      <a class="feed" href="{% url 'feed' %}">REGRESAR</a>
+    </div>
+
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Nombre Del Usuario</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if posts %}
+        {% for info in posts %}
+        <tr>
+          <td>{{info.user.username}}</td>
+          <td>{{info.total}}</td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+          <td colspan="2">NO HAY REGISTROS</td>
+        </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </main>
+  {% else %}
+  <h1>Inicia Sesión Primero</h1>
+  {% endif %}
+</body>
+<!-- Your existing HTML code -->
+<!-- ... -->
+
+
+<!-- Your existing HTML code -->
+
+<div class="row mt-3 justify-content-center">
+    <nav>
+        <ul class="pagination">
+
+            {% if posts.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1">Primera</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ posts.previous_page_number }}">&laquo;</a>
+            </li>
+            {% endif %}
+
+            {% for page in posts.paginator.page_range %}
+            <li class="page-item{% if posts.number == page %} active{% endif %}">
+                <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+            </li>
+            {% endfor %}
+
+            {% if posts.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ posts.next_page_number }}">&raquo;</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ posts.paginator.num_pages }}">Última</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+
+</html>
+{% endblock %}

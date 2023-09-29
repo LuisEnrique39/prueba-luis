@@ -1,156 +1,211 @@
+{%load static%}
 <!DOCTYPE html>
-{% load static %}
 <html>
 
 <head>
-	<title>Prueba con Django</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" type="text/css" href="{% static 'styles/normalize.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'styles/style.css' %}">
+    <title>Prueba con Django</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/normalize.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/style.css' %}">
+    <style>
+        .footer {
+            background: #f5EBf5;
+            text-align: center;
+            margin-top: auto;
+            position: absolute;
+            width: 100%;
+        }
+        
+        a {
+            color: black;
+        }
+        
+        /* Estilo general */
+        .menu ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .menu li {
+            display: inline;
+            margin-right: 10px;
+        }
+        
+        /* Alinea el botón Cerrar Sesión a la derecha */
+        .menu li:last-child {
+            float: right;
+            margin-right: 0;
+        }
+        
+        /* Estilo para el menú desplegable */
+        .dropdown {
+            position: right;
+            float: right; /* Mueve el menú a la derecha */
+                        z-index: 1;
 
-
+        }
+        
+        .dropbtn {
+            color: #333;
+            text-decoration: none;
+            cursor: pointer;
+            position: left 1px;
+            top: 0;
+            left: 0; /* Alineado a la izquierda */
+            padding: 0px 10px; /* Espacio interno para el botón */
+            background-color: transparent; /* Fondo transparente */
+            border: none;
+            font-size: 44px; /* Tamaño del ícono */
+        }
+        
+        /* Estilo del botón "Más opciones" */
+        .dropdown button.dropbtn {
+            background-color: transparent;
+        }
+        
+        /* Alinea el menú desplegable a la izquierda */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            width: 100px; /* Ancho del menú */
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            top: 11px; /* Mover el menú más arriba */
+            left: -11px; /* Alineado a la izquierda */
+        }
+        
+        .dropdown-content a {
+            display: block;
+            padding: 8px 12px; /* Espacio de relleno adecuado */
+            text-decoration: none;
+            color: #333;
+        }
+        
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+    </style>
 </head>
 
 <body>
-	<style>
-		.footer {
-			background: #f5EBf5;
-			text-align: center;
-			margin-top: auto;
-			position: absolute;
-			width: 100%;
-		}
-		a{
-			color: black;
-		}
-	</style>
-	<header>
-
-		<nav class="main">
-			<h1 id="logo"></h1>
-			<ul>
-
-				{% if request.user.is_authenticated %}
-
-
-				<li><a href="{% url 'logout' %}">Logout</a></li>
-				{% else %}
-
-				<li><a href="{% url 'registro' %}">Registrar</a></li>
-
-				<li><a href="{% url 'login' %}">Login</a></li>
-
-
-				{% endif %}
-
-			</ul>
-		</nav>
-	</header>
-
-
-
-	{% if messages %}
-	{% for message in messages %}
-	<div class="notification {{ message.tags}}">
-		{{ message }}
-	</div>
-	{% endfor %}
-	{% endif %}
-
-	<!-------------------------------------
-					Navigation Bar 
-	-------------------------------------->
-	<div>
-
-		<nav class="second-nav">
-			{% if request.user.is_authenticated %}
-
-			{% if user.is_superuser == True %}
-
-
-			<a class="feed" href="{% url 'feed' %}">Inicio</a>
-
-			<a class="profile" href="{% url 'perfil' %}">Mi Perfil</a>
-
-			<a class="new" href="{% url 'prueba' %}">Prueba</a>
-
-			<a class="new" href="{% url 'contacto' %}">datos</a>
-
-
-			{% else %}
-			<a class="new" href="{% url 'carrusel' %}">carrusel</a>
-			
-			<a class="new" href="{% url 'contacto' %}">contacto</a>
-
-			<a class="new" href="{% url 'consul' %}">consulta</a>
-
-			<a class="new" href="{% url 'ema' %}">email</a>
-
-			<a class="new" href="{% url 'tienda' %}">Tienda</a>
-
-			
-
-			{% endif %}
-			{% else %}
-			{% endif %}
-
-		</nav>
-
-
-		{% block content %}
-
-
-
-
-		{% endblock content %}
-
-
-
-	</div>
-
-	<footer class="footer text-faded text-center py-5">
-		<div class="container">
-			<p class="m-0">
-				<a href="#" class="link">
-					<span class="fa-stack fa-lg">
-						<i class="fa fa-circle fa-stack-2x"></i>
-						<i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-					</span>
-				</a>
-				<a href="#" class="link">
-					<span class="fa-stack fa-lg">
-						<i class="fa fa-circle fa-stack-2x"></i>
-						<i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-					</span>
-				</a>
-				<a href="#" class="link">
-					<span class="fa-stack fa-lg">
-						<i class="fa fa-circle fa-stack-2x"></i>
-						<i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
-					</span>
-				</a>
-			</p>
-			<a href="{% url 'ema' %}">
-				<center> <button type="button" >Contactanos</button>
-				</center>
-			</a>
-
-			<p class="m-0 mbt">
-				<center>
-					<font>
-		
-						<a href="sample.html" class="link">   Luis</a>  ·
-					<a href="sample.html" class="link">   Aviso legal   </a> ·
-						<a href="sample.html" class="link">   Cookies   </a> ·
-					</font>
-				</center>
-
-			</p>
-			<p class="m-0 mbt1">&copy; luis</p>
-		</div>
-	</footer>
+    <header>
+        <nav class="main">
+            <h1 id="logo"></h1>
+            <ul>
+                {% if request.user.is_authenticated and user.is_superuser == True %}
+                <ul>
+                    <div class="menu">
+                        <ul>
+                            <li class="dropdown">
+                                <button class="dropbtn" onclick="toggleDropdown()">&#9776;</button>
+                                <br>
+                                <div class="dropdown-content" id="dropdown-options">
+                                    <a href="{% url 'feed' %}">Inicio</a>
+                                    <a href="{% url 'perfil' %}">Mi Perfil</a>
+                                    <a href="{% url 'prueba' %}">Prueba</a>
+                                    <a href="{% url 'contacto' %}">datos</a>
+                                    <a href="{% url 'logout' %}" onclick="clearCart()">Cerrar Sesión</a>
+                                </div>
+                            </li>
+    
+                            <li></li>
+                        </ul>
+                    </div>
+                </ul>
+                
+                {% elif request.user.is_authenticated and user.is_superuser == False  %}
+                <div class="menu">
+                    <ul>
+                        <li class="dropdown">
+                            <button class="dropbtn" onclick="toggleDropdown()">&#9776;</button>
+                            <br>
+                            <div class="dropdown-content" id="dropdown-options">
+                                <a href="{% url 'carrusel' %}">Carrusel</a>
+                                <a href="{% url 'contacto' %}">Contacto</a>
+                                <a href="{% url 'consul' %}">Consulta</a>
+                                <a href="{% url 'ema' %}">Email</a>
+                                <a href="{% url 'tienda' %}">Tienda</a>
+                                <a href="{% url 'consultapro' %}">consulta de producto</a>
+                                <a href="{% url 'logout' %}" onclick="clearCart()">Cerrar Sesión</a>
+                            </div>
+                        </li>
+                    
+                    </ul>
+                </div>
+                {% elif request.user.is_authenticated == False%}
+                <li><a href="{% url 'registro' %}">Registrar</a></li>
+                <hr>
+                <hr>
+                <hr>
+                <hr>
+                <hr>
+                <li><a href="{% url 'login' %}">   Login</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+    
+    {% if messages %}
+    {% for message in messages %}
+    <div class="notification {{ message.tags}}">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    
+    <!-- Navegación para superusuarios -->
+    <!-- Agrega aquí elementos de menú específicos para usuarios regulares si es necesario -->
+    
+    </nav>
+    
+    {% block content %}
+    {% endblock content %}
+    
+    <footer class="footer text-faded text-center py-5">
+        <div class="container">
+            <p class="m-0">
+                <a href="#" class="link">
+                    <span class="fa-stack fa-lg">
+                        <i class="fa fa-circle fa-stack-2x"></i>
+                        <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+                <a href="#" class="link">
+                    <span class="fa-stack fa-lg">
+                        <i class="fa fa-circle fa-stack-2x"></i>
+                        <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+                <a href="#" class="link">
+                    <span class="fa-stack fa-lg">
+                        <i class="fa fa-circle fa-stack-2x"></i>
+                        <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </p>
+            <a href="{% url 'ema' %}">
+                <center> <button type="button">Contactanos</button>
+                </center>
+            </a>
+            
+            <p class="m-0 mbt">
+                <center>
+                    <font>
+                        <a href="sample.html" class="link">Luis</a> ·
+                        <a href="sample.html" class="link">Aviso legal</a> ·
+                        <a href="sample.html" class="link">Cookies</a> ·
+                    </font>
+                </center>
+            </p>
+            <p class="m-0 mbt1">&copy; luis</p>
+        </div>
+    </footer>
 </body>
-
 
 </html>

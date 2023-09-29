@@ -1,0 +1,75 @@
+{% extends 'social/layout.html' %}
+{% load static%}
+
+{% block content%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultas de Carrito</title>
+    <style>
+        body {
+            text-align: center;
+        }
+
+        h1 {
+            text-align: center;
+            font-family: Arial;
+        }
+
+        table {
+            border-spacing: 5px;
+            flex-wrap: wrap;
+            font-family: Times New Roman;
+            text-align: center;
+            background-color: aqua;
+        }
+
+        tbody {
+            text-align: center;
+            font-family: Arial;
+        }
+
+        main {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <a class="feed" href="{% url 'feed' %}">REGRESAR</a>
+    <main>
+        <div class="info">
+            <h1 class="titt">Consultas de datos de carrito</h1>
+        </div>
+        <center>
+            <table class="table table-bordered" width="6px" height="6px" alt="" style="background-color: orange;">
+                <thead>
+                    <tr>
+                        <th>Nombre Del Usuario</th>
+                        <th>Nombre Del Producto</th>
+                        <th>Total a pagar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if posts %}
+                    {% for ejemplo in posts %}
+                    <tr>
+                        <td>{{ ejemplo.user__username }}</td>
+                        <td>{{ ejemplo.producto__nombre }}</td>
+                        <td>{{ ejemplo.total_compra }}</td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="3">NO HAY REGISTROS</td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+            </main>
+    </body>
+    </html>
+
+{% endblock %}

@@ -57,6 +57,8 @@
 </style>
 
 <body>
+    {% if request.user.is_authenticated %}
+
     <h1 class="animated infinite bounce">MI PRIMERA PRUEBA</h1>
     <td data-title="imagen"> <img src="{% static 'img/12.jpg' %}" width="1px" height="1px" alt="">
     </td>
@@ -190,7 +192,18 @@
             <span class="sr-only">Next</span>
         </a>
     </div>
-
+    {%else%}
+    <br>
+    
+    <br><br>
+    <br><br>
+    
+    <h1>Inicia Sesion Primero</h1>
+    <br>
+    
+    <br><br><br><br><br>
+    {%endif%}
+    
     <script type="text/javascript">
         // Call carousel manually
         $('#myCarouselCustom').carousel();

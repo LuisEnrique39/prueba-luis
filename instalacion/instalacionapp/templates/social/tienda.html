@@ -1,4 +1,5 @@
 {% extends 'social/layout.html' %}
+
 {% load static%}
 {% block content%}
 <!DOCTYPE html>
@@ -16,218 +17,259 @@
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="scripts.js"></script>
     <script src="https://kit.fontawesome.com/82cfdc2825.js" crossorigin="anonymous"></script>
-
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="@sweetalert2/themes/dark/dark.css">
     <style>
-        body {
-            background-color: white;
+        a {
+            color: #333;
         }
 
+        /* Estilos para el botón de "REGRESAR" */
+        /*.prueba {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #008CBA;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }*/
 
 
-
-
+        /* Estilos para el botón de "Pagar" */
         .button-checkout {
-            background-color: white;
-            color: black;
-            border: 2px solid #008CBA;
-            /* Blue */
-            transition-duration: 0.4s;
-            position: absolute;
-            right: 15px;
-            bottom: 15px;
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+            margin-top: 20px;
         }
 
         .button-checkout:hover {
-            background-color: #008CBA;
-            /* Blue */
-            color: white;
+            background-color: #005b8c;
         }
 
-        .page-content {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-evenly;
-        }
-
-        .product-container {
-            margin: 15px;
-            padding: 2px 16px;
-            position: relative;
-            box-shadow: 0 4px 8px 0 white(0, 0, 0, 0.1);
-            background-color: #fafafa;
-        }
-
-        .product-container:hover {
-            box-shadow: 0 8px 16px 0 white(0, 0, 0, 0.2);
-        }
-
-        .product-container img {
-            width: 300px;
-        }
-
-        .product-container h1 {
-            margin-bottom: 10px;
-            margin-left: 15px;
-        }
-
-        .button-add {
-            background-color: white;
-            color: black;
-            border: 2px solid red;
-            /* Green */
-            transition-duration: 0.4s;
-            position: absolute;
-            right: 15px;
-            bottom: 10px;
-        }
-
-        .button-add:hover {
-            background-color: #77dd77;
-            /* Green */
-            color: white;
-        }
-
-        .prueba {
-            padding: 1 10px 3px 3px;
-            border: 1.8px solid black;
-            background: #f5ebf5;
-        }
-
-        label {
-            border-bottom: center;
-        }
-
+        /* Estilos para el formulario */
         .bu {
-            width: 120%;
-            max-width: 1000px;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            color: black;
+            max-width: 400px;
             margin: 0 auto;
-            align-items: center;
-            border: 0em;
-            background: #fafafa;
         }
 
-        input {
+        /* Estilos para los label */
+        .form-group label {
+            color: black;
+            font-size: 14px;
+            /* Tamaño de fuente reducido */
+        }
 
-            padding: 10px .00px 1px;
-            background: white;
-            min-width: 2px;
-            display: inline-block;
+        /* Estilos para los input */
+        .form-control {
+            background-color: white;
+            /* Fondo blanco para mejor legibilidad */
+            color: black;
+            font-size: 14px;
+            /* Tamaño de fuente reducido */
+            border: 1px solid #ccc;
+            /* Borde más delgado */
+            border-radius: 4px;
+            padding: 8px;
             width: 100%;
-
         }
 
-        .prueba {
-            padding: 1 10px 3px 3px;
-            border: 1.8px solid black;
-            background: #f5ebf5;
+        /* Estilos para el botón "Pagar" dentro del formulario */
+        .form-container button {
+            background-color: black;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+            margin-top: 20px;
+        }
+
+        .product-image {
+            width: 200px;
+            /* Ancho deseado */
+            height: 200px;
+            /* Alto deseado */
+            object-fit: cover;
+            /* Controla cómo se ajusta la imagen en su contenedor */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* Estilos para los botones dentro de la tabla */
+        table button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 5px;
+        }
+
+        table button:hover {
+            background-color: #005b8c;
+        }
+
+        /* Estilos para el botón de pagar */
+        .button-checkout {
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        .button-checkout:hover {
+            background-color: #005b8c;
+        }
+
+        /* Estilos para el mensaje de carrito vacío */
+        .empty-cart-message {
+            text-align: center;
+            font-size: 16px;
+            color: #888;
         }
     </style>
 
+
 </head>
+<!-- <a class="prueba" href="{% url 'feed' %}" style="color: black;">REGRESAR</a>
+-->
 
 <body>
-    <div class="bu">
-        <br>
-        <center><a class="prueba" href="{% url 'feed' %}">REGRESAR</a></center>
-        {% csrf_token %}
-        <center>
-            <font size="5" face="Arial">
-                <h1>TIENDA</h1>
-            </font>
-        </center>
-        <center>
-            <p>
-                <label class="etiquetaForm"></label>
-                <input class="controllers" value="{{user.id}}" type="hidden" name="user" id="userField"
-                    placeholder="Ingrese su usuario" onkeypress="return ch(event)" required>
-            </p>
-            <p>
-                <label class="etiquetaForm">Nombre</label>
-                <input class="controllers" type="text" name="user" id="nombreField" placeholder="Ingrese su usuario"
-                    onkeypress="return ch(event)" autofocus required>
-            </p>
-            <p>
-                <label class="etiquetaForm">Apellidos </label>
-                <input class="controllers" type="text" name="apellido" id="apellidoField"
-                    placeholder="Ingrese su apellido" onkeypress="return ch(event)" autofocus required>
-            </p>
-            <p>
-                <label class="etiquetaForm">Correo</label>
-                <input class="controllers" type="email" name="correo" id="correoField" placeholder="Ingrese tu correo"
-                    onkeypress="return ch(event)" autofocus required>
-            </p>
-            <p>
-                <label class="etiquetaForm">Numero </label>
-                <input class="controllers" type="text" name="Numero" id="numeroField" placeholder="Ingrese su numero"
-                    onkeypress="return ch(event)" autofocus required>
-            </p>
-            <p>
-                <label for="pagoField">comprar</label>
-                <select name="metodo_pago" id="pagoField">
-                    <option value="True">si</option>
-                    <option value="False">no</option>
-                </select>
-            </p>
-        </center>
+    {% if request.user.is_authenticated %}
+    <div style="text-align: right;">
     </div>
-
+    <p>
+        <label class="etiquetaForm"></label>
+        <input class="controllers" value="{{user.id}}" type="hidden" name="user" id="userField"
+            placeholder="Ingrese su usuario" onkeypress="return ch(event)" required>
+    </p>
     <br>
-    <br>
-    <br>
-
-    <button id="checkout" type="submit" class="button-checkout" onclick="pay()">Pagar</button>
-
-    <div class="page-content">
-        {% for producto in ejemplos %}
-            <div class="product-container">
-                <div class="col-sm-6">
-                   <h2 class="card-text">{{producto.marca}}</h2>
-                    <h2 class="card-text">{{producto.nombre}}</h2>
-                    <img class="card-img-top" src="{{producto.imagen.url}}" alt="" width="410" height="410">
-                    <h2 class="card-text">{{producto.descripcion}}</h2>
-                    <h2 class="card-text">$ {{producto.precio}}</h2>
-                    <br>
-                    <br>
-                    <br>
-                    <center>
-                        <button class="button-add" onclick="add('{{producto}}','{{producto.precio}}')"
-                            onkeypress="return ch(event)" required>Agregar</button>
-                    </center>
+    <div style="text-align: right;">
+        <button class="btn btn-primary" onclick="mostrarNombresProductos()" style="background-color: #007BFF;">Ver
+            Productos Seleccionados</button>
+    </div>
+    <!-- Agregar tabla para mostrar los productos seleccionados -->
+    <div class="container mt-4">
+        <h3>Productos Seleccionados</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nombre del Producto</th>
+                    <th>Precio</th>
+                    <th>Subtotal</th>
+                    <th>Cantidad</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tablaProductos">
+                <!-- Aquí se mostrarán los productos seleccionados -->
+            </tbody>
+        </table>
+        
+        <button class="button-checkout" type="button" onclick="pay()">
+            <i class="fas fa-shopping-cart"></i> <!-- Icono del carro de compras -->
+            <span id="checkout">0.00</span>
+        </button>
+    </div>
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            {% for producto in ejemplos %}
+            <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                <div class="card" style="background-color: #f7f7f7; border: 1px solid #ddd;">
+                    <img src="{{ producto.imagen.url }}" class="card-img-top" alt="{{ producto.nombre }}"
+                        style="max-height: 150px; object-fit: contain;">
+                    <div class="card-body text-center">
+                        <h5 class="card-title" style="color: #333;">{{ producto.nombre }}</h5>
+                        <p class="card-text" style="color: #666;">{{ producto.descripcion }}</p>
+                        <h6 class="card-subtitle mb-2 text-muted" style="color: #888;">{{ producto.marca }}</h6>
+                        <p class="card-text" style="color: #333;">$ {{ producto.precio }}</p>
+                        <button class="btn btn-primary" onclick="add('{{ producto.nombre }}', {{ producto.precio }})"
+                            onkeypress="return ch(event)" required style="background-color: #007BFF;">Agregar</button>
+                    </div>
                 </div>
             </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
     </div>
-
     <br>
     <br>
     <br>
     <br>
     <br>
     <br>
-
-    <script>
-        let products = [];
-        let total = 0;
-
-        function add(product, precio) {
-            console.log(product, precio);
-            products.push(product);
-            total = (parseInt(total) + parseInt(precio));
-            document.getElementById("checkout").innerHTML = `Pagar $${[total]}`
-        }
-    </script>
-
+    <div class="row mt-3 justify-content-center">
+        <nav>
+            <ul class="pagination horizontal-pagination" style="margin: 0; padding: 0;">
+                {% if ejemplos.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1">Primera</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ ejemplos.previous_page_number }}">&laquo;</a>
+                </li>
+                {% endif %}
+                {% for page in paginas %}
+                <li class="page-item{% if pagina_actual == page %} active{% endif %}">
+                    <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                </li>
+                {% endfor %}
+                {% if ejemplos.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ ejemplos.next_page_number }}">&raquo;</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ ejemplos.paginator.num_pages }}">Última</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+    {%else%}
+    <br><br><br><br><br>
+    <h1>Inicia Sesion Primero</h1><br><br><br><br><br><br>
+    {%endif%}
     <script>
         function pay() {
-            let nombre = String(nombreField.value).trim();
-
-            if (nombre.length === 0) {
+            if (total === 0) {
                 Swal.fire({
                     title: 'Error!',
-                    text: 'DATOS REQUERIDOS',
+                    text: 'Carrito de compras vacío',
                     icon: 'error',
                     confirmButtonText: 'OK',
                     timer: 2000
@@ -238,18 +280,28 @@
                     type: "POST",
                     data: {
                         'Usuario': $('#userField').val(),
-                        'Nombre': $('#nombreField').val(),
-                        'Apellidos': $('#apellidoField').val(),
-                        'Correo': $('#correoField').val(),
-                        'Numero': $('#numeroField').val(),
-                        'metodo_pago': $('#pagoField').val(),
                         'total': total,
                         csrfmiddlewaretoken: '{{ csrf_token }}',
                     },
                     success: function (data) {
-                        console.log(data)
+                        console.log(data);
                         console.log("Success");
-                        window.location.href = "{% url 'tienda' %}";
+    
+                        // Limpia el carrito
+                        clearCart();
+    
+                        // Muestra un mensaje de agradecimiento
+                        Swal.fire({
+                            title: '¡Gracias por tu compra!',
+                            text: 'Tu compra ha sido procesada exitosamente.',
+                            icon: 'success',
+                            confirmButtonText: 'Aceptar'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                // Redirige a la página de tienda
+                                window.location.href = "{% url 'tienda' %}";
+                            }
+                        });
                     },
                     error: function () {
                         alert('Hubo algún error al realizar la llamada AJAX!');
@@ -257,9 +309,177 @@
                 });
             }
         }
+        let products = [];
+        let total = 0;
+        let selectedProducts = [];
+        function mostrarNombresProductos() {
+            let tablaProductos = document.getElementById("tablaProductos");
+            let totalElement = document.getElementById("checkout");
+        
+            // Limpiar la tabla antes de agregar los nuevos productos
+            tablaProductos.innerHTML = "";
+        
+            // Verificar si el carrito está vacío
+            if (selectedProducts.length === 0) {
+                // Si está vacío, mostrar un mensaje en lugar de la tabla y el botón de pago
+                tablaProductos.innerHTML = `<tr><td colspan="5">Carrito de compras vacío</td></tr>`;
+                totalElement.textContent = "$0.00";
+                return;
+            }
+        
+            // Restablecer el total a cero antes de recalcularlo
+            total = 0;
+        
+            // Recorrer los productos seleccionados y agregarlos a la tabla
+            for (let i = 0; i < selectedProducts.length; i++) {
+                const product = selectedProducts[i];
+                const subtotal = product.cantidad * product.precio; // Calcular el subtotal
+                const fila = `
+                    <tr>
+                        <td>${product.nombre}</td>
+                        <td>$${product.precio.toFixed(2)}</td>
+                        <td>$${subtotal.toFixed(2)}</td> <!-- Mostrar el subtotal -->
+                        <td>
+                            <!-- Botón de "menos" -->
+                            ${product.cantidad > 1 ? `<button onclick="decrement('${product.nombre}')">-</button>` : ''}
+                            ${product.cantidad}
+                            <!-- Botón de "más" -->
+                            <button onclick="increment('${product.nombre}')">+</button>
+                        </td>
+                        <td>
+                            <button onclick="remove('${product.nombre}')">&#128465;</button>
+                        </td>
+                    </tr>
+                `;
+                tablaProductos.innerHTML += fila;
+        
+                // Agregar el subtotal al total
+                total += subtotal;
+            }
+        
+            // Actualizar el total
+            document.getElementById("checkout").textContent = `Pagar $${total.toFixed(2)}`;
+        }
+        
+        function increment(productName) {
+            const productIndex = selectedProducts.findIndex(product => product.nombre === productName);
+            if (productIndex !== -1) {
+                selectedProducts[productIndex].cantidad += 1;
+                total += selectedProducts[productIndex].precio;
+            }
+            // Actualizar el total
+            document.getElementById("checkout").textContent = `Pagar $${total.toFixed(2)}`;
+            // Llama a la función para actualizar el carrito
+            actualizarCarrito();
+        }
+        function decrement(productName) {
+            const productIndex = selectedProducts.findIndex(product => product.nombre === productName);
+            if (productIndex !== -1) {
+                if (selectedProducts[productIndex].cantidad > 1) {
+                    selectedProducts[productIndex].cantidad -= 1;
+                } else {
+                    // Si la cantidad es 1, elimina el producto
+                    selectedProducts.splice(productIndex, 1);
+                }
+                total -= selectedProducts[productIndex].precio;
+            }
+            // Actualizar el total
+            document.getElementById("checkout").textContent = `Pagar $${total.toFixed(2)}`;
+            // Llama a la función para actualizar el carrito
+            actualizarCarrito();
+        }
+        function remove(productName) {
+            const productIndex = selectedProducts.findIndex(product => product.nombre === productName);
+            if (productIndex !== -1) {
+                total -= selectedProducts[productIndex].precio * selectedProducts[productIndex].cantidad;
+                selectedProducts.splice(productIndex, 1);
+            }
+            // Actualizar el total
+            if (selectedProducts.length === 0) {
+                total = 0;
+            }
+            actualizarCarrito(); // Actualizar el carrito después de eliminar
+        }
+        function actualizarCarrito() {
+            mostrarNombresProductos();
+            localStorage.setItem("cartProducts", JSON.stringify(selectedProducts));
+            localStorage.setItem("cartTotal", total);
+            // Actualizar el elemento HTML que muestra el total
+            document.getElementById("checkout").textContent = `Pagar $${total.toFixed(2)}`;
+        }
+        function cargarCarritoDesdeLocalStorage() {
+            const storedProducts = localStorage.getItem("cartProducts");
+            const storedTotal = localStorage.getItem("cartTotal");
+            if (storedProducts && storedTotal) {
+                selectedProducts = JSON.parse(storedProducts);
+                total = parseFloat(storedTotal);
+                document.getElementById("checkout").innerHTML = `Pagar $${total.toFixed(2)}`;
+            }
+        }
+        cargarCarritoDesdeLocalStorage();
+        function clearCart() {
+            selectedProducts = [];
+            total = 0;
+            localStorage.removeItem("cartProducts");
+            localStorage.removeItem("cartTotal");
+        }
+        // Función para agregar un producto al carrito
+        function add(productName, precio) {
+            console.log(productName, precio);
+            // Verificar si el producto ya está en la lista
+            const existingProduct = selectedProducts.find(product => product.nombre === productName);
+            if (existingProduct) {
+                // Incrementar la cantidad si el producto ya está en la lista
+                existingProduct.cantidad += 1;
+            } else {
+                // Agregar el producto a la lista con cantidad 1 si no está en la lista
+                const product = {
+                    nombre: productName,
+                    precio: precio,
+                    cantidad: 1, // Inicialmente, la cantidad es 1
+                };
+                selectedProducts.push(product);
+            }
+            // Actualizar el total
+            total = parseFloat(total) + parseFloat(precio);
+            // Cambiamos a parseFloat para tratar los precios como números decimales
+            if (
+                total == 0
+            ) {
+                document.getElementById("checkout").innerHTML = `Pagar $0.0`;
+            }
+            else {
+                document.getElementById("checkout").innerHTML = `Pagar $${total.toFixed(2)}`;
+            }
+            // Guardar productos y total en localStorage
+            localStorage.setItem("cartProducts", JSON.stringify(selectedProducts));
+            localStorage.setItem("cartTotal", total);
+            actualizarCarrito();
+        }
+        // Función para cargar productos y total desde el almacenamiento local al cargar la página
+        window.onload = function () {
+            const storedProducts = localStorage.getItem("cartProducts");
+            const storedTotal = localStorage.getItem("cartTotal");
+            if (storedProducts && storedTotal) {
+                selectedProducts = JSON.parse(storedProducts);
+                total = parseFloat(storedTotal);
+                document.getElementById("checkout").textContent = `Pagar $${total.toFixed(2)}`;
+                mostrarNombresProductos();
+                actualizarCarrito();
+            }
+            // Verificar si el carrito está vacío después de cargar desde localStorage
+            verificarCarritoVacio();
+        }
+        function verificarCarritoVacio() {
+            if (selectedProducts.length === 0) {
+                total = 0;
+            }
+        }
     </script>
 </body>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="@sweetalert2/themes/dark/dark.css">
+<script src="sweetalert2/dist/sweetalert2.min.js"></script>
 
 </html>
 {% endblock %}

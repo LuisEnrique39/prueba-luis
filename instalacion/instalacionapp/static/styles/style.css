@@ -47,6 +47,7 @@ img {
 
 nav.main {
   display: flex;
+  justify-content: start;
   width: 100%;
   margin: auto;
   background-color:#f5ebf5;
@@ -54,16 +55,13 @@ nav.main {
 
 nav.main ul {
   display: flex;
-  flex: 1 1 40rem;
+  flex: 0 0 8rem;
   justify-content: space-around;
   align-items: center;
   list-style: none;
 }
 
-#logo {
-  flex: 2 1 40rem;
-  background-color: #f5ebf5;
-}
+
 
 /* -----*/
 

@@ -1,0 +1,203 @@
+
+<div class="row mt-3 justify-content-center">
+    <nav>
+        <ul class="pagination horizontal-pagination" style="margin: 0; padding: 0;">
+            {% if prueba.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1">&lt;&lt; Primera</a> <!-- Enlace para ir a la primera página -->
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ prueba.previous_page_number }}">&laquo; Anterior</a>
+            </li>
+            {% endif %}
+            {% for page in paginas %}
+            <li class="page-item{% if pagina_actual == page %} active{% endif %}">
+                <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+            </li>
+            {% endfor %}
+            {% if prueba.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ prueba.next_page_number }}">Siguiente &raquo;</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ prueba.paginator.num_pages }}">Última &gt;&gt;</a>
+                <!-- Enlace para ir a la última página -->
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+{% for regis in prueba %}
+<tr>
+    <td>{{ regis.user.username }}</td>
+    <td>{{ regis.total }}</td>
+</tr>
+{% endfor %}
+{% else %}
+<tr>
+<td colspan="3">
+<h1>NO HAY REGISTROS</h1>
+</td>
+</tr>
+{% endif %}
+</tbody>
+<tbody>
+{% if posts %}
+{% for info in posts %}
+<tr>
+<td>{{ info.nombre }}</td>
+.pagination {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+}
+
+.page-item {
+    margin: 0 5px;
+    font-size: 16px;
+}
+
+.page-link {
+    color: #007BFF;
+    text-decoration: none;
+    padding: 5px 10px;
+    border: 1px solid #007BFF;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.page-link:hover {
+    background-color: #007BFF;
+    color: white;
+}
+
+.page-item.active .page-link {
+    background-color: #007BFF;
+    color: white;
+    border: 1px solid #007BFF;
+}
+
+th,
+td {
+    border: 1px solid black;
+    padding: 8px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 60%;
+}
+
+th {
+    background-color: chocolate;
+    color: black;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+}
+</style>
+
+
+<header>
+
+    <nav class="main">
+        <h1 id="logo"></h1>
+        <ul>
+
+            {% if request.user.is_authenticated %}
+
+
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+            {% else %}
+
+            <li><a href="{% url 'registro' %}">Registrar</a></li>
+
+            <li><a href="{% url 'login' %}">Login</a></li>
+
+
+            {% endif %}
+
+        </ul>
+    </nav>
+</header>
+<header>
+    <nav class="main">
+        <h1 id="logo"></h1>
+        <ul>
+            {% if request.user.is_authenticated and user.is_superuser == True %}
+    <ul>
+        <div class="menu">
+            <ul>
+                <li class="dropdown">
+                    <button class="dropbtn" onclick="toggleDropdown()">&#9776;</button>
+                    <br>
+                    <div class="dropdown-content" id="dropdown-options">
+                        <a href="{% url 'feed' %}">Inicio</a>
+                        <a href="{% url 'perfil' %}">Mi Perfil</a>
+                        <a href="{% url 'prueba' %}">Prueba</a>
+                        <a href="{% url 'contacto' %}">datos</a>
+                        <a href="{% url 'consultaadmin' %}">consulta admin</a>
+                    </div>
+                </li>
+                <li></li><li></li><li></li><li></li><li></li><li></li>
+                <li></li><li></li><li></li><li></li><li></li><li></li>
+                <li></li><li></li><li></li><li></li><li></li><li></li>
+                <li></li><li></li><li></li><li></li><li></li><li></li>
+
+                <li><a href="{% url 'logout' %}" onclick="clearCart()">Cerrar Sesión</a></li>
+
+            </ul>
+        </div>
+    </ul>
+    
+            {%elif request.user.is_authenticated and user.is_superuser == False  %}
+            <div class="menu">
+                <ul>
+                    <li class="dropdown">
+                        <button class="dropbtn" onclick="toggleDropdown()">&#9776;</button>
+                        <br>
+                        <div class="dropdown-content" id="dropdown-options">
+                            <a href="{% url 'carrusel' %}">Carrusel</a>
+                            <a href="{% url 'contacto' %}">Contacto</a>
+                            <a href="{% url 'consul' %}">Consulta</a>
+                            <a href="{% url 'ema' %}">Email</a>
+                            <a href="{% url 'tienda' %}">Tienda</a>
+                        </div>
+                    </li>
+                    <li></li><li></li><li></li><li></li><li></li><li></li>
+                    <li></li><li></li><li></li><li></li><li></li><li></li>
+                    <li></li><li></li><li></li><li></li><li></li><li></li>
+                    <li></li><li></li><li></li><li></li><li></li><li></li>
+    
+                    <li><a href="{% url 'logout' %}" onclick="clearCart()">Cerrar Sesión</a></li>
+
+                </ul>
+
+            </div>
+    {% elif request.user.is_authenticated == False%}
+
+    <li><a href="{% url 'registro' %}">Registrar</a></li>
+    <li><a href="{% url 'login' %}">Login</a></li>
+
+            {% endif %}
+    
+        </ul>
+    </nav>
+</header>
+
+{% if messages %}
+{% for message in messages %}
+<div class="notification {{ message.tags}}">
+    {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+
+<!-- Navegación para superusuarios -->
+    <!-- Agrega aquí elementos de menú específicos para usuarios regulares si es necesario -->
+
+    
+</nav>
+

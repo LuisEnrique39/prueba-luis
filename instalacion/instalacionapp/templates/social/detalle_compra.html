@@ -1,0 +1,23 @@
+{% extends 'social/layout.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Resto de tu encabezado HTML aquí -->
+</head>
+<body>
+    <h1>Detalle de la Compra</h1>
+    
+    <h2>Productos Comprados:</h2>
+    <ul>
+        {% for producto in productos_comprados %}
+            <li>{{ producto.nombre }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Total de la Compra: ${{ total }}</h2>
+    
+    <!-- Resto de tu cuerpo HTML aquí -->
+</body>
+</html>
+{% endblock %}

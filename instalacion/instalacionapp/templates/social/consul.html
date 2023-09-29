@@ -55,6 +55,8 @@
 
 
 <body>
+  {% if request.user.is_authenticated %}
+
   <main style="background-color: white;  height: 70em;">
 
 
@@ -178,7 +180,32 @@
   </table>
   </center>
 
-
+  {%else%}
+  <br>
+  
+  <br><br>
+  <br><br>
+  
+  <h1>Inicia Sesion Primero</h1>
+  <br>
+  
+  <br>
+  
+  <br><br><br><br><br>
+  <br><br><br><br><br><br>
+  
+  <br><br><br><br><br>
+  {%endif%}
+  <br>
+  
+  <br>
+  <br>
+  
+  <br>
+  
+  
+  <br><br><br><br><br>
+  
 </body>
 </center>
 

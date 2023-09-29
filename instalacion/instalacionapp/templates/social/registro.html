@@ -12,14 +12,29 @@
 	body {
 		background: white;
 	 }
-	 form{
-		width: 120%;
-		max-width: 800px;
+	 form {
+		max-width: 400px;
 		margin: 0 auto;
-		align-items: center;
-		border: 0em;
-		background: #fafafa;
-	  }
+		padding: 20px;
+		border: 1px solid #ccc;
+		background: #f5f5f5;
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		text-align: center;
+		border-radius: 40px; /* Agregar bordes redondeados solo al formulario */
+	}
+	button {
+		border-radius: 20px; /* Agregar bordes redondeados solo al botón */
+		background-color: #007bff; /* Cambiar color de fondo del botón */
+		color: white; /* Cambiar color del texto del botón */
+	}    input[type="text"],
+	input[type="password"] {
+
+		width: 100%;
+		padding: 1px;
+		margin: 5px 0;
+		border: 1px solid #ccc;
+		border-radius: 5px;
+	}
 
 </style>
 	{% csrf_token %}

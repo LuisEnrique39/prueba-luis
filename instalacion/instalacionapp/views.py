@@ -12,9 +12,9 @@ from django.core.mail import send_mail
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import HttpResponseForbidden
 from .models import tienda
+from django.core.paginator import  Paginator
 from .models import Producto
-
-#django nos permite tener forms#
+from django.shortcuts import redirect
 
 
 # Create your views here.
@@ -78,10 +78,15 @@ def contacto(request):
           )
         dato.save()
   return render(request, 'social/contacto.html')
+def produ(request):
 
+  productos=Productos.objects.all()
+
+      
+  return render(request, 'social/productos.html', {"productos": productos})
 def carrusel(request):
- 
-  return render(request, 'social/carrusel.html')
+
+    return render(request, 'social/carrusel.html')
 
 def consulta(request):
     
@@ -91,6 +96,12 @@ def consulta(request):
 
 
     return render(request, 'social/consul.html', context)
+def get(self,request,*args, **kwargs):
+    if request.user.is_authenticated:
+      return render(self.template_name)
+    else:
+      return redirect('login')
+
 
 def correo(request):
       
@@ -117,39 +128,62 @@ def correo(request):
   context = {}
   return render(request, 'social/ema.html')
 
+
+ #      self.request=request
+   #     self.session=request.session
+    #    carro=self.session.get("carro")
+
 def compras(request):
   ejemplos = Producto.objects.all()
   print(request)
   if request.method == 'POST':  
        
         dato = tienda.objects.create(
-          
                 user_id=request.POST['Usuario'], 
-                nombre=request.POST['Nombre'], 
-                apellido=request.POST['Apellidos'], 
-                correo=request.POST['Correo'], 
-                numero=request.POST['Numero'],
-                pago=request.POST['metodo_pago'],
                 total=request.POST['total'],
-
-                
-				
-               
-            
-          )
+        )
         dato.save()
-  return render(request, 'social/tienda.html', {'ejemplos' :ejemplos})
+  paginator = Paginator(ejemplos, 5)
+  pagina = request.GET.get("page") or 1
+  ejemplos = paginator.get_page(pagina) 
+  pagina_actual = int(pagina)
+  paginas = range(1, ejemplos.paginator.num_pages + 1)
+ 
+  return render(request, 'social/tienda.html', {'ejemplos': ejemplos, "paginas": paginas, "pagina_actual": pagina_actual})
+
+def carro(request):
+    info = Producto.objects.all()
+    ejemplo = tienda.objects.all()
+
+    # Add pagination to 'ejemplo' queryset
+    paginator = Paginator(ejemplo, 5)  # 5 items per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'social/consultaadmin.html', {'info': info, 'ejemplo': page_obj})
+
+def carrous(request):
+    info = tienda.objects.all()
+
+    context= {'posts': info}
 
 
+    return render(request, 'social/conultaus.html', context)
+def carropro(request):
+    # Get all objects from the 'tienda' model
+    all_items = tienda.objects.all()
 
+    # Set the number of items to display per page
+    items_per_page = 10  # You can adjust this number as needed
 
+    # Create a Paginator object
+    paginator = Paginator(all_items, items_per_page)
 
-#def consultapr(request, username=None):
-#    l = Producto.objects.all()
-    
- #   current_user = request.user
-  #  if username and username != current_user.username:
-   #     user = User.objects.get(username=username)
-    #else:
-     #   user = current_user
-    #return render(request, 'social/consultapro.html', {'user': user,'l' :l})
+    # Get the current page number from the request's GET parameters
+    page_number = request.GET.get('page')
+
+    # Get the Page object for the current page
+    page = paginator.get_page(page_number)
+
+    context = {'posts': page}
+    return render(request, 'social/consultapro.html', context)

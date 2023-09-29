@@ -44,6 +44,8 @@
 </style>
 
 <body>
+  {% if request.user.is_authenticated %}
+
   <form class="register">
     {% csrf_token %}
 
@@ -161,7 +163,32 @@
   <br>
 
   </div>
-
+  {%else%}
+  <br>
+  
+  <br><br>
+  <br><br>
+  
+  <h1>Inicia Sesion Primero</h1>
+  <br>
+  
+  <br>
+  
+  <br><br><br><br><br>
+  <br><br><br><br><br><br>
+  
+  <br><br><br><br><br>
+  {%endif%}
+  <br>
+  
+  <br>
+  <br>
+  
+  <br>
+  
+  
+  <br><br><br><br><br>
+  
   <script>
 
 
@@ -242,3 +269,34 @@
 
 </html>
 {% endblock %}
+<div class="row mt-3 justify-content-center">
+  <nav>
+      <ul class="pagination horizontal-pagination" style="margin: 0; padding: 0;">
+          {% if prueba.has_previous %}
+          <li class="page-item">
+              <a class="page-link" href="?page=1">&lt;&lt; Primera</a> <!-- Enlace para ir a la primera página -->
+          </li>
+          <li class="page-item">
+              <a class="page-link" href="?page={{ prueba.previous_page_number }}">&laquo; Anterior</a>
+          </li>
+          {% endif %}
+          {% for page in paginas %}
+          <li class="page-item{% if pagina_actual == page %} active{% endif %}">
+              <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+          </li>
+          {% endfor %}
+          {% if prueba.has_next %}
+          <li class="page-item">
+              <a class="page-link" href="?page={{ prueba.next_page_number }}">Siguiente &raquo;</a>
+          </li>
+          <li class="page-item">
+              <a class="page-link" href="?page={{ prueba.paginator.num_pages }}">Última &gt;&gt;</a>
+              <!-- Enlace para ir a la última página -->
+          </li>
+          {% endif %}
+      </ul>
+  </nav>
+</div>
+{% for regis in prueba %}
+<tr>
+    <td>{{ regis.user.username }}</td>
